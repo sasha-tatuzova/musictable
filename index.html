@@ -8,8 +8,8 @@
     }
     td{
         border:1px solid rgb(15, 15, 15);
-        width:35px;
-        height:35px;
+        width:20px;
+        height:20px;
         background-color:#424242;
     }
     td.clicked{
@@ -28,42 +28,118 @@
     h1, h2{
         color: #c2c2be;
     }
+    a{
+        color:aquamarine
+    }
     </style>
 </head>
 <script>
+const C4_FREQUENCY = 261.63;
+  const firstOctave = [
+      { note: "C4",  freq: 261.63 },
+      { note: "C#4/Db4", freq: 277.18 },
+      { note: "D4",  freq: 293.66 },
+      { note: "D#4/Eb4", freq: 311.13 },
+      { note: "E4",  freq: 329.63 },
+      { note: "F4",  freq: 349.23 },
+      { note: "F#4/Gb4", freq: 369.99 },
+      { note: "G4",  freq: 392.00 },
+      { note: "G#4/Ab4", freq: 415.30 },
+      { note: "A4",  freq: 440.00 },
+      { note: "A#4/Bb4", freq: 466.16 },
+      { note: "B4",  freq: 493.88 },
+      { note: "C5", freq:523.25 }
+    ];
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const rows = 13
+const cols = 15
+let isMuted = false;
+clickedIds = new Set();
+
 function cellClick(cell){
     if (cell.classList.contains("clicked")){
+        clickedIds.delete(cell.id)
         cell.classList.remove("clicked");
-        cell.classList.add("chosen");
-    }        
-    else if (cell.classList.contains("chosen")){
-        cell.classList.remove ("chosen");
-    } else
+    } else{
         cell.classList.add("clicked");
-    console.log("cellClick");
+        clickedIds.add(cell.id)
+    }
+
+    addr = window.location.pathname + "?";
+    is_first=true;
+    for (const item of clickedIds){
+        if(!is_first) addr += "&";  else is_first = false;
+        addr += item + "=1"
+    }
+    document.getElementById("address").href = addr
+    
+    console.log(clickedIds);
 }
 
 function buttonClick(){
-    for (let j = 0; j < 10; j++){
-        for ( let i = 0; i < 10; i ++){    
+    for (let j = 0; j < cols; j++){
+        for ( let i = 0; i < rows; i ++){    
             let cell = document.getElementById("mouse_"+i+"_"+ j)
             cell.classList.remove("chosen", "clicked")
         }
     }
 }
 
+let seconds = 0; // counter for seconds
+
+function playNotes(notes){
+    if( isMuted ) return;
+    for( i = 0; i < notes.length; i++){
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(notes[i], audioCtx.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        // Smooth fade out
+        gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.6); // short note (0.3s)
+    }
+}
+
+function playC4() {
+    let notes = []
+    for( i = 0; i < rows; i++){
+        cell=document.getElementById("mouse_"+i+"_"+seconds)
+        if( cell.classList.contains("clicked"))
+            notes.push(firstOctave[i].freq)
+    }
+    playNotes(notes)
+    
+    const timerElement = document.getElementById("timer"); // reference to the <span>
+    timerElement.innerHTML = seconds;
+    seconds = (seconds + 1) % cols;
+}
+
 function init(){
-    console.log("buttonClick")
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     let table = document.createElement("table")
     let tbody = document.createElement("tbody")
     table.appendChild(tbody)
-    for (let j = 0; j < 10; j++){
+    for (let j = 0; j < rows; j++){
         let tr = document.createElement("tr")
         tbody.appendChild(tr)
-        for (let i = 0; i < 10; i++){
+        for (let i = 0; i < cols; i++){
             let td = document.createElement("td")
-            td.id = "mouse_"+j+"_"+i
+            id = "mouse_"+j+"_"+i
+            td.id = id
+            if( urlParams.get(id) ) {
+                td.classList.add("clicked")
+                clickedIds.add(id)
+            }
             td.onclick = function(){
                 cellClick(document.getElementById("mouse_"+j+"_"+i))
             }
@@ -71,16 +147,23 @@ function init(){
         }
     }
     document.getElementById("parent").appendChild(table)
+    document.getElementById("address").href = window.location.href;
+
+    // setInterval runs the function every 1000 ms (1 second)
+    setInterval(playC4,500)     
 }
 </script>
-<body>
-    <h2>Hello World!</h2>
-    <h1><p>This is my first HTML page.</p></h1>
+<body onload="init()">
+    <h1>Music Table</h1>
 
     <div id="parent"></div>
-    <button onclick= "buttonClick()">clickMe</button>
-    <script>
-        init()
-    </script>
+    <div style="display:none" id="timer"></div>
+    <button onclick= "buttonClick()">Clean Me</button>
+    <button onclick= "
+        isMuted=!isMuted; 
+        this.innerHTML=isMuted?'Unmute Me': 'Mute Me'
+    ">Mute Me</button>
+    <br>
+    <a id="address">Link to this page</a>
 </body>
 </html>
