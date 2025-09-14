@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello World Page</title>
+    <title>Musictable</title>
     <style>
     body{
         background-color:#242420;
@@ -42,28 +42,39 @@ function cellClick(cell){
         cell.classList.add("clicked");
     console.log("cellClick");
 }
+
+function buttonClick(){
+}
+
+function init(){
+    console.log("buttonClick")
+
+    let table = document.createElement("table")
+    let tbody = document.createElement("tbody")
+    table.appendChild(tbody)
+    for (let j = 0; j < 10; j++){
+        let tr = document.createElement("tr")
+        tbody.appendChild(tr)
+        for (let i = 0; i < 10; i++){
+            let td = document.createElement("td")
+            td.id = "mouse_"+j+"_"+i
+            td.onclick = function(){
+                cellClick(document.getElementById("mouse_"+j+"_"+i))
+            }
+            tr.appendChild(td)
+        }
+    }
+    document.getElementById("parent").appendChild(table)
+}
 </script>
 <body>
     <h2>Hello World!</h2>
     <h1><p>This is my first HTML page.</p></h1>
-    <table style="border-width:1px;">
-       <tbody>
-            <tr>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-            </tr>
-            <tr>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-            </tr>
-            <tr>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-                <td onclick="cellClick(this);"></td>
-            </tr>
-        </tbody> 
-    </table>    
+
+    <div id="parent"></div>
+    <button onclick= "buttonClick()">clickMe</button>
+    <script>
+        init()
+    </script>
 </body>
 </html>

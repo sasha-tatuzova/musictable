@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)file:///home/sasha/IT/music/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Musictable</title>
+    <style>
+    body{
+        background-color:#242420;
+    }
+    td{
+        border:1px solid rgb(15, 15, 15);
+        width:35px;
+        height:35px;
+        background-color:#424242;
+    }
+    td.clicked{
+        background-color:antiquewhite
+    }
+    td.chosen{
+        background-color:rgb(233, 169, 85)
+    }
+    td:hover{
+        background-color:#c2c2be;
+        border:1px solid #f4f762;
+    }
+    td.clicked:hover {
+        background-color:rgb(179, 179, 179);
+    }
+    h1, h2{
+        color: #c2c2be;
+    }
+    </style>
+<script>
+function cellClick(cell){
+    if (cell.classList.contains("clicked")){
+        cell.classList.remove("clicked");
+        cell.classList.add("chosen");
+    }        
+    else if (cell.classList.contains("chosen")){
+        cell.classList.remove ("chosen");
+    } else
+        cell.classList.add("clicked");
+    console.log("cellClick");
+}
+function buttonClick(){
+    console.log("buttonClick")
+
+    let img = document.createElement("img");
+    img.src = "note.png"
+    img.width = 30
+    img.height = 30
+    document.getElementById("cellid").innerHTML=""
+    document.getElementById("cellid").appendChild(img)
+
+    let table = document.createElement("table")
+    let tbody = document.createElement("tbody")
+    table.appendChild(tbody)
+    for (let j = 0; j < 10; j++){
+        let tr = document.createElement("tr")
+        tbody.appendChild(tr)
+        for (let i = 0; i < 10; i++){
+            let td = document.createElement("td")
+            td.innerHTML = i;
+            td.id = "mouse_"+j+"_"+i
+            tr.appendChild(td)
+        }
+    }
+    document.getElementById("parent").appendChild(table)
+}
+</script></head>
+
+<body>
+    <h2>Hello World!</h2>
+    <h1><p>This is my first HTML page.</p></h1>
+    <table style="border-width:1px;">
+       <tbody>
+            <tr>
+                <td onclick="cellClick(this);">
+                    <img src="./Musictable_files/note.png" width="30px" height="30px">
+                </td>
+                <td id="cellid" onclick="cellClick(this);" class="chosen"><img src="./Musictable_files/note.png" width="30" height="30"></td>
+                <td onclick="cellClick(this);"></td>
+            </tr>
+            <tr>
+                <td onclick="cellClick(this);" class="chosen"></td>
+                <td id="cd" onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);" class="chosen"></td>
+            </tr>
+            <tr>
+                <td onclick="cellClick(this);"></td>
+                <td id="ll" onclick="cellClick(this);" class="chosen"></td>
+                <td onclick="cellClick(this);"></td>
+            </tr>
+        </tbody> 
+    </table>    
+    <div id="parent"><table><tbody><tr><td id="mouse_0_0">0</td><td id="mouse_0_1">1</td><td id="mouse_0_2">2</td><td id="mouse_0_3">3</td><td id="mouse_0_4">4</td><td id="mouse_0_5">5</td><td id="mouse_0_6">6</td><td id="mouse_0_7">7</td><td id="mouse_0_8">8</td><td id="mouse_0_9">9</td></tr><tr><td id="mouse_1_0">0</td><td id="mouse_1_1">1</td><td id="mouse_1_2">2</td><td id="mouse_1_3">3</td><td id="mouse_1_4">4</td><td id="mouse_1_5">5</td><td id="mouse_1_6">6</td><td id="mouse_1_7">7</td><td id="mouse_1_8">8</td><td id="mouse_1_9">9</td></tr><tr><td id="mouse_2_0">0</td><td id="mouse_2_1">1</td><td id="mouse_2_2">2</td><td id="mouse_2_3">3</td><td id="mouse_2_4">4</td><td id="mouse_2_5">5</td><td id="mouse_2_6">6</td><td id="mouse_2_7">7</td><td id="mouse_2_8">8</td><td id="mouse_2_9">9</td></tr><tr><td id="mouse_3_0">0</td><td id="mouse_3_1">1</td><td id="mouse_3_2">2</td><td id="mouse_3_3">3</td><td id="mouse_3_4">4</td><td id="mouse_3_5">5</td><td id="mouse_3_6">6</td><td id="mouse_3_7">7</td><td id="mouse_3_8">8</td><td id="mouse_3_9">9</td></tr><tr><td id="mouse_4_0">0</td><td id="mouse_4_1">1</td><td id="mouse_4_2">2</td><td id="mouse_4_3">3</td><td id="mouse_4_4">4</td><td id="mouse_4_5">5</td><td id="mouse_4_6">6</td><td id="mouse_4_7">7</td><td id="mouse_4_8">8</td><td id="mouse_4_9">9</td></tr><tr><td id="mouse_5_0">0</td><td id="mouse_5_1">1</td><td id="mouse_5_2">2</td><td id="mouse_5_3">3</td><td id="mouse_5_4">4</td><td id="mouse_5_5">5</td><td id="mouse_5_6">6</td><td id="mouse_5_7">7</td><td id="mouse_5_8">8</td><td id="mouse_5_9">9</td></tr><tr><td id="mouse_6_0">0</td><td id="mouse_6_1">1</td><td id="mouse_6_2">2</td><td id="mouse_6_3">3</td><td id="mouse_6_4">4</td><td id="mouse_6_5">5</td><td id="mouse_6_6">6</td><td id="mouse_6_7">7</td><td id="mouse_6_8">8</td><td id="mouse_6_9">9</td></tr><tr><td id="mouse_7_0">0</td><td id="mouse_7_1">1</td><td id="mouse_7_2">2</td><td id="mouse_7_3">3</td><td id="mouse_7_4">4</td><td id="mouse_7_5">5</td><td id="mouse_7_6">6</td><td id="mouse_7_7">7</td><td id="mouse_7_8">8</td><td id="mouse_7_9">9</td></tr><tr><td id="mouse_8_0">0</td><td id="mouse_8_1">1</td><td id="mouse_8_2">2</td><td id="mouse_8_3">3</td><td id="mouse_8_4">4</td><td id="mouse_8_5">5</td><td id="mouse_8_6">6</td><td id="mouse_8_7">7</td><td id="mouse_8_8">8</td><td id="mouse_8_9">9</td></tr><tr><td id="mouse_9_0">0</td><td id="mouse_9_1">1</td><td id="mouse_9_2">2</td><td id="mouse_9_3">3</td><td id="mouse_9_4">4</td><td id="mouse_9_5">5</td><td id="mouse_9_6">6</td><td id="mouse_9_7">7</td><td id="mouse_9_8">8</td><td id="mouse_9_9">9</td></tr></tbody></table></div>
+    <button onclick="buttonClick()">clickMe</button>
+
+
+</body></html>

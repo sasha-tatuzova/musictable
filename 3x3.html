@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3x3</title>
+    <style>
+    body{
+        background-color:#242420;
+    }
+    td{
+        border:1px solid rgb(15, 15, 15);
+        width:35px;
+        height:35px;
+        background-color:#424242;
+    }
+    td.cross{
+        background-color:#f3f03b;
+    }
+    td.zero{
+        background-color:#f0f0e7;
+    }
+    h1, h2{
+        color: #c2c2be;
+    }
+    </style>
+</head>
+<script>
+clickCounter = 0;
+
+function cellClick(cell){
+    if (
+        !cell.classList.contains("cross") && 
+        !cell.classList.contains("zero")
+    ){
+        if( clickCounter % 2 == 0){
+            // even
+            cell.classList.add("cross")
+        } else {
+            // odd
+            cell.classList.add("zero")
+        }    
+        clickCounter++;
+    }
+}
+</script>
+<body>
+    <h2>Hello World!</h2>
+    <h1><p>This is my first HTML page.</p></h1>
+    <table style="border-width:1px;">
+       <tbody>
+            <tr>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+            </tr>
+            <tr>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+            </tr>
+            <tr>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+                <td onclick="cellClick(this);"></td>
+            </tr>
+        </tbody> 
+    </table>    
+    <button>New game</button>
+</body>
+</html>
