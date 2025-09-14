@@ -44,6 +44,12 @@ function cellClick(cell){
 }
 
 function buttonClick(){
+    for (let j = 0; j < 10; j++){
+        for ( let i = 0; i < 10; i ++){    
+            let cell = document.getElementById("mouse_"+i+"_"+ j)
+            cell.classList.remove("chosen", "clicked")
+        }
+    }
 }
 
 function init(){
